@@ -1,3 +1,4 @@
+1
 function* randomNumbers(start, end) {
     for (let i = 0; i < 10; i++) {
       yield Math.floor(Math.random() * (end - start + 1) + start);
@@ -8,7 +9,7 @@ function* randomNumbers(start, end) {
     console.log(num);
   }
 
-  
+
   2
   function brushTeeth() {
     return new Promise((resolve, reject) => {
