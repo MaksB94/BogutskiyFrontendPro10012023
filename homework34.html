@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<div class="container">
+<input type="text" id="text-field">
+  <div id="bar" class="bar"></div>
+</div>
+
+<script>
+const textField = document.getElementById("text-field");
+const bar = document.getElementById("bar");
+
+textField.addEventListener("focus", () => {
+  bar.style.display = "block";
+});
+
+
+textField.addEventListener("blur", () => {
+  bar.style.display = "none"; 
+});
+
+</script>
+
+<style>
+  .bar{
+    width: 100px;
+    height: 100px;
+    background: orange;
+    display: none;
+  }
+  .container{
+    display: flex;
+    align-items: flex-start;
+  }
+</style>
+</body>
+</html>
