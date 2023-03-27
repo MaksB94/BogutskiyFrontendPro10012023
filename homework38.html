@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+#slider {
+    position: relative;
+  }
+  
+  .buttons {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  button {
+    margin: 0 10px;
+  }
+    </style>
+</head>
+<body>
+    <div id="slider">
+        <img src="image1.jpg" alt="Image 1">
+        <img src="image2.jpg" alt="Image 1">
+        <img src="image3.jpg" alt="Image 1">
+        <div class="buttons">
+          <button id="prev">Попереднє</button>
+          <button id="next">Наступне</button>
+        </div>
+      </div>
+
+<script>
+  let currentSlide = 0;
+  const totalSlides = document.querySelectorAll("#slider img").length;
+  
+  document.querySelector("#prev").style.display = "none";
+  
+  function showNextSlide() {
+    currentSlide++;
+    if (currentSlide >= totalSlides - 1) {
+      document.querySelector("#next").style.display = "none";
+    }
+    document.querySelector("#prev").style.display = "block";
+    document.querySelector("#slider img:nth-of-type(" + (currentSlide + 1) + ")").style.display = "block";
+    document.querySelector("#slider img:nth-of-type(" + currentSlide + ")").style.display = "none";
+  }
+  
+  function showPrevSlide() {
+    currentSlide--;
+    if (currentSlide <= 0) {
+      document.querySelector("#prev").style.display = "none";
+    }
+    document.querySelector("#next").style.display = "block";
+    document.querySelector("#slider img:nth-of-type(" + (currentSlide + 1) + ")").style.display = "block";
+    document.querySelector("#slider img:nth-of-type(" + (currentSlide + 2) + ")").style.display = "none";
+  }
+  
+  document.querySelector("#next").addEventListener("click", showNextSlide);
+  document.querySelector("#prev").addEventListener("click", showPrevSlide);
+</script>
+</body>
