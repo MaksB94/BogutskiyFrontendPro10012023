@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="poll"></div>
+<script>
+    const options = [
+      { emoji: "😄", count: 0 },
+      { emoji: "😊", count: 0 },
+      { emoji: "😐", count: 0 },
+      { emoji: "😞", count: 0 },
+      { emoji: "😢", count: 0 },
+    ];
+    
+    function showPollResults() {
+      const pollDiv = document.getElementById("poll");
+      
+      pollDiv.innerHTML = "";
+      
+      options.forEach(function(option) {
+        const optionDiv = document.createElement("div");
+        optionDiv.innerHTML = option.emoji;
+        pollDiv.appendChild(optionDiv);
+        
+        const countDiv = document.createElement("div");
+        countDiv.innerHTML = option.count;
+        pollDiv.appendChild(countDiv);
+        
+        optionDiv.addEventListener("click", function() {
+          option.count++;
+          countDiv.innerHTML = option.count;
+        });
+      });
+    }
+    
+    showPollResults();
+</script>
+    
+</body>
+</html>
