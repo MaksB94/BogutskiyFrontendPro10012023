@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація</title>
+</head>
+<body>
+    <form id="registrationForm">
+        <div>
+            <label for="firstName">Ім'я:</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="lastName">Прізвище:</label>
+            <input type="text" id="surname" name="surname">
+        </div>
+        <div>
+            <label for="birthDate">Дата народження:</label>
+            <input type="text" id="dob" name="dob">
+        </div>
+        <div>
+            <label for="gender">Стать:</label>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Чоловік</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Жінка</label>
+        </div>
+        <div>
+            <label for="city">Місто:</label>
+            <select id="city" name="city">
+                <option value="kyiv">Київ</option>
+                <option value="lviv">Львів</option>
+                <option value="odesa">Одеса</option>
+                <option value="kharkiv">Харків</option>
+            </select>
+        </div>
+        <div>
+            <label for="address">Адреса:</label>
+            <textarea id="address" name="address"></textarea>
+        </div>
+        <div>
+            <label>Мови, якими володіє:</label>
+            <input type="checkbox" id="lang1" name="languages" value="english">
+            <label for="lang1">Англійська</label>
+            <input type="checkbox" id="lang2" name="languages" value="ukrainian">
+            <label for="lang2">Українська</label>
+            <input type="checkbox" id="lang3" name="languages" value="russian">
+            <label for="lang3">Російська</label>
+        </div>
+        <div>
+            <button type="submit">Зберегти</button>
+        </div>
+    </form>
+
+    <table id="registrationTable" style="display: none;">
+        <tr>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Дата народження</th>
+            <th>Стать</th>
+            <th>Місто</th>
+            <th>Адреса</th>
+            <th>Мови, якими володіє</th>
+        </tr>
+    </table>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const table = document.getElementById('registrationTable');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+function handleSubmit(event) {
+  event.preventDefault();
+
+  const name = form.elements.name.value;
+  const surname = form.elements.surname.value;
+  const dob = form.elements.dob.value;
+  const gender = form.elements.gender.value;
+  const city = form.elements.city.value;
+  const address = form.elements.address.value;
+  const languages = [];
+  for (let i = 0; i < form.elements.languages.length; i++) {
+    if (form.elements.languages[i].checked) {
+      languages.push(form.elements.languages[i].value);
+    }
+  }
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  const headers = ['Ім\'я', 'Прізвище', 'Дата народження', 'Стать', 'Місто', 'Адреса', 'Мови'];
+  const tbody = document.createElement('tbody');
+  const dataRow = document.createElement('tr');
+  const data = [name, surname, dob, gender, city, address, languages.join(', ')];
+  for (const datum of data) {
+    const td = document.createElement('td');
+    td.textContent = datum;
+    dataRow.appendChild(td);
+  }
+  tbody.appendChild(dataRow);
+  table.appendChild(tbody);
+
+
+  form.reset();
+
+  form.replaceWith(table);
+document.getElementById('registrationTable').style.display='block';
+
+}
+
+submitButton.addEventListener('click', handleSubmit);
+</script>
+</body>
+</html>
