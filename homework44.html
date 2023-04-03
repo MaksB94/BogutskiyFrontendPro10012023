@@ -1,103 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Каталог товарів</title>
+ <title>Каталог товарів</title>
 </head>
 <body>
 <div class="categories">
-  <h2>Категорії</h2>
-  <ul id="category-list"></ul>
+ <h2>Категорії</h2>
+ <ul id="category-list"></ul>
 </div>
 <div class="products">
-  <h2>Товари</h2>
-  <ul id="product-list"></ul>
+ <h2>Товари</h2>
+ <ul id="product-list"></ul>
 </div>
 <div id="product-info" class="product-info">
-	<div id="product-info-description"></div>
-	<div id="product-info-price"></div>
-	<button id="product-info-buy">купити</button>
+ <div id="product-info-description"></div>
+ <div id="product-info-price"></div>
+ <button id="product-info-buy">купити</button>
+ <br>
+ <br>
 </div>
-
+       <form id="registrationForm" style="display: none;">
+        <div>
+            <label for="firstName">ПІБ покупця:</label>
+            <input type="text" id="name" name="name">
+        </div>
+         <div>
+            <label for="city">Місто:</label>
+            <select id="city" name="city">
+                <option value="kyiv">Київ</option>
+                <option value="lviv">Львів</option>
+                <option value="odesa">Одеса</option>
+                <option value="kharkiv">Харків</option>
+            </select>
+        </div>
+        <div>
+            <label for="post-office">Склад Нової пошти</label>
+            <input type="text" id="post-office" name="post-office">
+        </div>
+        <div>
+            <label for="gender">Післяплати або оплати банківської картки:</label>
+            <input type="radio" checked id="pay1" name="payment-method" value="Картка">
+            <label for="male">Картка</label>
+            <input type="radio" id="pay2" name="payment-method" value="Післяплата">
+            <label for="female">Післяплата</label>
+        </div>
+        <div>
+            <label for="count">Кількість продукції:</label>
+            <input type="text" id="count" name="count">
+        </div>
+        <div>
+            <label for="comment">Адреса:</label>
+            <textarea id="comment" name="comment"></textarea>
+        </div>
+        <div>
+            <button id="save" type="submit">Зберегти</button>
+        </div>
+         <br>
+ <br>
+    </form>
+<table id="registrationTable" ></table>
 <script>
+const form = document.getElementById('registrationForm');
+const submitButton = form.querySelector('button[type="submit"]');
+let aboutProduct = null
 const categories = [
-  {
-    id: 1,
-    name: 'Електроніка',
-    products: [
-      { id: 1, name: 'Ноутбук', price: 10000,description:"тут опис Електроніка 1" },
-      { id: 2, name: 'Телефон', price: 8000,description:"тут опис Електроніка 2" },
-      { id: 3, name: 'Планшет', price: 6000,description:"тут опис Електроніка 3" },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Одяг',
-    products: [
-      { id: 4, name: 'Футболка', price: 500,description:"тут опис Одяг 1" },
-      { id: 5, name: 'Штани', price: 1000,description:"тут опис Одяг 2" },
-      { id: 6, name: 'Куртка', price: 2000,description:"тут опис Одяг 3" },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Книги',
-    products: [
-      { id: 7, name: 'Роман', price: 200, description:"тут опис Книги 1"},
-      { id: 8, name: 'Детектив', price: 250,description:"тут опис Книги 2" },
-      { id: 9, name: 'Наукова література', price: 300,description:"тут опис Книги 3" },
-    ],
-  },
+ {
+   id: 1,
+   name: 'Електроніка',
+   products: [
+     { id: 1, name: 'Ноутбук', price: 10000,description:"тут опис Електроніка 1" },
+     { id: 2, name: 'Телефон', price: 8000,description:"тут опис Електроніка 2" },
+     { id: 3, name: 'Планшет', price: 6000,description:"тут опис Електроніка 3" },
+   ],
+ },
+ {
+   id: 2,
+   name: 'Одяг',
+   products: [
+     { id: 4, name: 'Футболка', price: 500,description:"тут опис Одяг 1" },
+     { id: 5, name: 'Штани', price: 1000,description:"тут опис Одяг 2" },
+     { id: 6, name: 'Куртка', price: 2000,description:"тут опис Одяг 3" },
+   ],
+ },
+ {
+   id: 3,
+   name: 'Книги',
+   products: [
+     { id: 7, name: 'Роман', price: 200, description:"тут опис Книги 1"},
+     { id: 8, name: 'Детектив', price: 250,description:"тут опис Книги 2" },
+     { id: 9, name: 'Наукова література', price: 300,description:"тут опис Книги 3" },
+   ],
+ },
 ];
 function showCatecorys(){
 document.getElementById('product-info-buy').style.display = 'none';
-	var str = ''
-	categories.forEach(function(e,i){
-		str+=`<li data-el=${i}>${e.name}</li>`
-	})
-	document.getElementById('category-list').innerHTML = str;
-	document.getElementById('product-info-description').innerHTML=''
-	document.getElementById('product-info-price').innerHTML=''
-	document.getElementById('product-list').innerHTML = ''
-	const categoryList = document.querySelectorAll("#category-list li");
-	categoryList.forEach(function(e,i){
-		e.addEventListener('click', function() {
-      showProducts(categories[this.getAttribute('data-el')].products);
-    });
-	})
+ var str = ''
+ categories.forEach(function(e,i){
+   str+=`<li data-el=${i}>${e.name}</li>`
+ })
+ document.getElementById('category-list').innerHTML = str;
+ document.getElementById('product-info-description').innerHTML=''
+ document.getElementById('product-info-price').innerHTML=''
+ document.getElementById('product-list').innerHTML = ''
+ const categoryList = document.querySelectorAll("#category-list li");
+ categoryList.forEach(function(e,i){
+   e.addEventListener('click', function() {
+     showProducts(categories[this.getAttribute('data-el')].products);
+   });
+ })
 }
+
+
 
 
 function showProducts(arr){
-	var str = ''
-	arr.forEach(function(e,i){
-		str+=`<li data-price="${e.price}" data-description="${e.description}">${e.name}</li>`
-	})
-	document.getElementById('product-list').innerHTML = str;
-	let productList = document.querySelectorAll("#product-list li");
-	productList.forEach(function(e,i){
-		e.addEventListener('click', function() {
-			showProductDescription(this.getAttribute('data-description'),this.getAttribute('data-price'))
-    });
-	})
+ var str = ''
+ arr.forEach(function(e,i){
+   str+=`<li data-price="${e.price}" data-description="${e.description}">${e.name}</li>`
+ })
+ document.getElementById('product-list').innerHTML = str;
+ let productList = document.querySelectorAll("#product-list li");
+ productList.forEach(function(e,i){
+   e.addEventListener('click', function() {
+     showProductDescription(this.getAttribute('data-description'),this.getAttribute('data-price'))
+   });
+ })
 }
+
 function showProductDescription(description,price){
-	document.getElementById('product-info-buy').style.display = 'block';
-	document.getElementById('product-info-description').innerText = description; 
-	document.getElementById('product-info-price').innerText = price; 
+ document.getElementById('product-info-buy').style.display = 'block';
+ document.getElementById('product-info-description').innerText = description;
+ document.getElementById('product-info-price').innerText = price;
+ aboutProduct = {
+  description: description,
+  price:price,
+ };
 }
 
-
-function buyProduct(){
-	alert('Товар Куплено');
-	showCatecorys()
-}
 
 document.getElementById('product-info-buy').addEventListener('click', function() {
-	buyProduct()
+  document.getElementById('registrationForm').style.display = 'block';
 });
+
+function handleSubmit(event) {
+  event.preventDefault();
+  document.getElementById('registrationTable').innerHTML = '';
+  const table = document.getElementById('registrationTable');
+  const name = document.getElementById('name').value;
+  const city = document.getElementById('city').value;
+  const postOffice = document.getElementById('post-office').value;
+  const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+  const count = document.getElementById('count').value;
+  const comment = document.getElementById('comment').value;
+  if (!name || !city || !postOffice || !paymentMethod || !comment || !count) {
+    alert('Будь ласка, заповніть всі обов\'язкові поля форми замовлення.');
+  } else {
+const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  const headers = ['ПІБ', 'Місто', 'Склад Нової пошти', 'Оплати', 'Кількість', 'Адреса','Опис товару','Ціна'];
+  const tbody = document.createElement('tbody');
+  const dataRow = document.createElement('tr');
+  const dataRow2 = document.createElement('tr');
+  const data = [name, city, postOffice, paymentMethod, count, comment];
+for (const header of headers) {
+    const th = document.createElement('th');
+    th.textContent = header;
+    dataRow2.appendChild(th);
+  }
+  for (const datum of data) {
+    const td = document.createElement('td');
+    td.textContent = datum;
+    dataRow.appendChild(td);
+  }
+  for (const product in aboutProduct) {
+    const td = document.createElement('td');
+    td.textContent = aboutProduct[product];
+    dataRow.appendChild(td);
+  }
+  tbody.appendChild(dataRow2);
+  tbody.appendChild(dataRow);
+  table.appendChild(tbody);
+  }
+}
+
+
+submitButton.addEventListener('click', handleSubmit);
+
+document.getElementById('save').addEventListener('click', function() {
+  document.getElementById('registrationForm').reset()
+
+});
+
 showCatecorys();
 </script>
-
 </body>
 </html>
-

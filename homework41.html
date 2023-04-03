@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Каталог товарів</title>
+</head>
+<body>
+<div class="categories">
+  <h2>Категорії</h2>
+  <ul id="category-list"></ul>
+</div>
+<div class="products">
+  <h2>Товари</h2>
+  <ul id="product-list"></ul>
+</div>
+<div id="product-info" class="product-info">
+	<div id="product-info-description"></div>
+	<div id="product-info-price"></div>
+	<button id="product-info-buy">купити</button>
+</div>
+
+<script>
+const categories = [
+  {
+    id: 1,
+    name: 'Електроніка',
+    products: [
+      { id: 1, name: 'Ноутбук', price: 10000,description:"тут опис Електроніка 1" },
+      { id: 2, name: 'Телефон', price: 8000,description:"тут опис Електроніка 2" },
+      { id: 3, name: 'Планшет', price: 6000,description:"тут опис Електроніка 3" },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Одяг',
+    products: [
+      { id: 4, name: 'Футболка', price: 500,description:"тут опис Одяг 1" },
+      { id: 5, name: 'Штани', price: 1000,description:"тут опис Одяг 2" },
+      { id: 6, name: 'Куртка', price: 2000,description:"тут опис Одяг 3" },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Книги',
+    products: [
+      { id: 7, name: 'Роман', price: 200, description:"тут опис Книги 1"},
+      { id: 8, name: 'Детектив', price: 250,description:"тут опис Книги 2" },
+      { id: 9, name: 'Наукова література', price: 300,description:"тут опис Книги 3" },
+    ],
+  },
+];
+function showCatecorys(){
+document.getElementById('product-info-buy').style.display = 'none';
+	var str = ''
+	categories.forEach(function(e,i){
+		str+=`<li data-el=${i}>${e.name}</li>`
+	})
+	document.getElementById('category-list').innerHTML = str;
+	document.getElementById('product-info-description').innerHTML=''
+	document.getElementById('product-info-price').innerHTML=''
+	document.getElementById('product-list').innerHTML = ''
+	const categoryList = document.querySelectorAll("#category-list li");
+	categoryList.forEach(function(e,i){
+		e.addEventListener('click', function() {
+      showProducts(categories[this.getAttribute('data-el')].products);
+    });
+	})
+}
+
+
+function showProducts(arr){
+	var str = ''
+	arr.forEach(function(e,i){
+		str+=`<li data-price="${e.price}" data-description="${e.description}">${e.name}</li>`
+	})
+	document.getElementById('product-list').innerHTML = str;
+	let productList = document.querySelectorAll("#product-list li");
+	productList.forEach(function(e,i){
+		e.addEventListener('click', function() {
+			showProductDescription(this.getAttribute('data-description'),this.getAttribute('data-price'))
+    });
+	})
+}
+function showProductDescription(description,price){
+	document.getElementById('product-info-buy').style.display = 'block';
+	document.getElementById('product-info-description').innerText = description; 
+	document.getElementById('product-info-price').innerText = price; 
+}
+
+
+function buyProduct(){
+	alert('Товар Куплено');
+	showCatecorys()
+}
+
+document.getElementById('product-info-buy').addEventListener('click', function() {
+	buyProduct()
+});
+showCatecorys();
+</script>
+
+</body>
+</html>
+
