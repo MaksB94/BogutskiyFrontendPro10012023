@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Погода</title>
+  <script
+  src="https://code.jquery.com/jquery-3.6.4.js"
+  integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Погода у Львові</h1>
+  <p>Температура: <span id="temp"></span> &#8451;</p>
+  <p>Тиск: <span id="pressure"></span> гПа</p>
+  <p>Опис: <span id="description"></span></p>
+  <p>Вологість: <span id="humidity"></span>%</p>
+  <p>Швидкість вітру: <span id="speed"></span> м/с</p>
+  <p>Напрям вітру: <span id="deg"></span>&deg;</p>
+  <img id="icon" src="" alt="icon">
+  
+  <script>
+  	$(document).ready(function(){
+  $.ajax({
+    url: 'http://api.openweathermap.org/data/2.5/weather?q=LVIV&units=metric&APPID=5d066958a60d315387d9492393935c19',
+    dataType: 'json',
+    success: function(data){
+      console.log(data);
+      const temp = data.main.temp;
+      const pressure = data.main.pressure;
+      const description = data.weather[0].description;
+      const humidity = data.main.humidity;
+      const speed = data.wind.speed;
+      const deg = data.wind.deg;
+      const icon = 'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png';
+
+      $('#temp').html(temp);
+      $('#pressure').html(pressure);
+      $('#description').html(description);
+      $('#humidity').html(humidity);
+      $('#speed').html(speed);
+      $('#deg').html(deg);
+      $('#icon').attr('src', icon);
+    }
+  });
+});
+  </script>
+</body>
+</html>
