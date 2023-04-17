@@ -17,7 +17,6 @@ function getPostById(id) {
     if (id < 1 || id > 100) {
       reject('ID має бути від 1 до 100');
     } else {
-      // виконання запиту до API
       fetch('https://jsonplaceholder.typicode.com/posts/' + id)
         .then(function(response) {
           return response.json();
